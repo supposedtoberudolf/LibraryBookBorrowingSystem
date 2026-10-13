@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <string.h>
+#include <windows.h>
 
 typedef struct {
     
@@ -12,6 +13,19 @@ typedef struct {
     char status[20];
 
 } Book;
+
+void printLoadingDots(const char *message, int dotCount, int delayMs) {
+    
+    printf("\n\n%s", message);
+    fflush(stdout);
+
+    for (int i = 0; i < dotCount; i++) {
+        Sleep(delayMs);
+        printf(" .");
+        fflush(stdout);
+    }
+    printf("\n");
+}
 
 int displayMainMenu() {
 
@@ -56,8 +70,10 @@ void displayBooks(Book books[10]) {
         printf("\n");
     }
 
-    printf("\nPRESS [ENTER] TO RETURN TO MAIN MENU");
+    printf("\nPRESS ANYTHING TO RETURN TO MAIN MENU");
     getch();
+    printLoadingDots("LOADING", 4, 500);
+    system("cls");
 }
 
 void borrowBook(Book books[10]) {
@@ -83,7 +99,11 @@ void borrowBook(Book books[10]) {
         scanf("%d", &choice);
 
             if (choice == 0) break;
-            else if (choice > 10 || choice < 1) printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN\n");
+            else if (choice > 10 || choice < 1) {
+                printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN");
+                Sleep(2000);
+                printLoadingDots("LOADING", 4, 500);
+            }    
             else break;
 
     } while (1);
@@ -104,10 +124,14 @@ void borrowBook(Book books[10]) {
             
         }
 
+        printLoadingDots("LOADING", 4, 500);
+        printLoadingDots("PROCESSING YOUR REQUEST", 4, 500);
+
         if (isAvailable == 0) {
             printf("\nSORRY, THE BOOK IS UNAVAILABLE, PLEASE TRY AGAIN LATER.\n");
-            printf("\nPRESS [ENTER] TO RETURN TO MAIN MENU");
+            printf("\nPRESS ANYTHING TO RETURN TO MAIN MENU");
             getch();
+            printLoadingDots("LOADING", 4, 500);
         }
         else {
 
@@ -118,14 +142,16 @@ void borrowBook(Book books[10]) {
             printf("|                               DETAILS                                 | \n");
             printf("|                                                                       | \n");
             printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
-            printf("|  TITLE   : %-58s |\n", books[index].title);
-            printf("|  AUTHOR  : %-58s |\n", books[index].author);
+            printf("|  TITLE   : %-58.58s |\n", books[index].title);
+            printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
             printf("|  YEAR    : %-58d |\n", books[index].year);
             printf("|                                                                       | \n");
             printf("+-----------------------------------------------------------------------+\n");
 
-            printf("\n\nPRESS [ENTER] TO CONTINUE");
+            printf("\n\nPRESS ANYTHING TO CONTINUE");
             getch();
+            printLoadingDots("LOADING", 4, 500);
+            system("cls");
         }
  
     }
