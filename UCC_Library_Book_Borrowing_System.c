@@ -68,7 +68,7 @@ void borrowBook(Book books[10]) {
 
     system("cls");
     printf("+-----------------------------------------------------------------------+\n");
-    printf("|                     AVAILABLE BOOKS FOR BORROWING                     |\n");
+    printf("|                            LIBRARY BOOKS                              |\n");
     printf("+-----------------------------------------------------------------------+\n");
     for (int i = 0; i < 10; i++) {
         printf("+-----------------------------------------------------------------------+\n");
@@ -104,7 +104,11 @@ void borrowBook(Book books[10]) {
             
         }
 
-        if (isAvailable == 0) printf("\nSORRY, THE BOOK IS UNAVAILABLE, PLEASE TRY AGAIN LATER.\n");
+        if (isAvailable == 0) {
+            printf("\nSORRY, THE BOOK IS UNAVAILABLE, PLEASE TRY AGAIN LATER.\n");
+            printf("\nPRESS [ENTER] TO RETURN TO MAIN MENU");
+            getch();
+        }
         else {
 
             system("cls");
