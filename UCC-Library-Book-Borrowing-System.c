@@ -98,7 +98,11 @@ void borrowBook(Book books[10]) {
         printf("\nENTER THE ID OF THE BOOK YOU WANT TO BORROW (0 TO CANCEL): ");
         scanf("%d", &choice);
 
-            if (choice == 0) break;
+            if (choice == 0) {
+                printLoadingDots("LOADING", 4, 500);
+                system("cls");
+                break;
+            }
             else if (choice > 10 || choice < 1) {
                 printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN");
                 Sleep(2000);
