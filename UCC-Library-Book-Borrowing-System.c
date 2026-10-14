@@ -216,7 +216,7 @@ void borrowBook(Book books[10]) {
                     printLoadingDots("\nLOADING", 4, 500);
                     system("cls");
                     break;
-                };
+                }
 
             } while (1);
 
