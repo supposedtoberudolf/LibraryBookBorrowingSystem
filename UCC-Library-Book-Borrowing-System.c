@@ -150,13 +150,13 @@ void borrowBook(Book books[10]) {
         }
 
         printLoadingDots("LOADING", 4, 500);
-        printLoadingDots("PROCESSING YOUR REQUEST", 4, 500);
 
         if (isAvailable == 0) {
             printf("\nSORRY, THE BOOK IS UNAVAILABLE, PLEASE TRY AGAIN LATER.\n");
             printf("\nPRESS ANYTHING TO RETURN TO MAIN MENU");
             getch();
             printLoadingDots("LOADING", 4, 500);
+            system("cls");
         }
         else {
    
@@ -184,7 +184,7 @@ void borrowBook(Book books[10]) {
 
                 if (result[1] != 1 || extra[1] == 1) {
                     system("cls");
-                    printf("\nINPUT MUST CONTAIN CHARACTER ONLY\nPLEASE TRY AGAIN\n\n");
+                    printf("\nPLEASE ENTER Y OR N ONLY\nPLEASE TRY AGAIN\n\n");
                 }
                 else if (confirm == 'N') {
                     system("cls");
