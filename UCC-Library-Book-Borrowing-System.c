@@ -136,13 +136,12 @@ void borrowBook(Book books[10]) {
     } while (1);
     
     if ((choice <= 10) && (choice >= 1)) {
-        
-        index = choice - 1;
 
         for (int i = 0; i < 10; i++) {
             if (choice == books[i].ID) {
                 if (strcmp(books[i].status, "AVAILABLE") == 0) {
                     isAvailable = 1;
+                    index = i;
                 }
                 
             }
