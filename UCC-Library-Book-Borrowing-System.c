@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <string.h>
 #include <windows.h>
+#include <ctype.h>
 
 typedef struct {
     
@@ -16,7 +17,7 @@ typedef struct {
 
 void printLoadingDots(const char *message, int dotCount, int delayMs) {
     
-    printf("\n\n%s", message);
+    printf("\n%s", message);
     fflush(stdout);
 
     for (int i = 0; i < dotCount; i++) {
@@ -27,9 +28,22 @@ void printLoadingDots(const char *message, int dotCount, int delayMs) {
     printf("\n");
 }
 
+int clearBuffer() {
+
+    int extra = 0;                    
+
+    while (getchar() != '\n') {
+        extra = 1;                    
+    }
+
+    return extra;
+}
+
 int displayMainMenu() {
 
     int choice = 0;
+    int result = 0;
+    int extra = 0;
 
     do
     {
@@ -44,12 +58,17 @@ int displayMainMenu() {
         printf("+-----------------------------------------------------------------------+\n");
 
         printf("\nSELECT FROM (1-3): ");
-        scanf("%d", &choice);
+        result = scanf("%d", &choice);
+        extra = clearBuffer();
 
-        if (choice > 3 || choice < 1) {
+        if (result != 1 || extra == 1) {
             system("cls");
-            printf("\nINVALID SELECTION!\nPLEASE TRY AGAIN\n\n");  
-        }    
+            printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n\n");
+        }
+        else if (choice > 3 || choice < 1) {
+            system("cls");
+            printf("\nINVALID SELECTION!\nPLEASE TRY AGAIN\n\n");
+        }
         else break;
 
     } while (1);
@@ -72,15 +91,16 @@ void displayBooks(Book books[10]) {
 
     printf("\nPRESS ANYTHING TO RETURN TO MAIN MENU");
     getch();
-    printLoadingDots("LOADING", 4, 500);
+    printLoadingDots("\nLOADING", 4, 500);
     system("cls");
 }
 
 void borrowBook(Book books[10]) {
 
-    int index = 0;
-    int choice = 0;
-    int isAvailable = 0;
+    int index, choice, isAvailable = 0;
+    int result[2] = {0};
+    int extra[2] = {0};
+    char confirm = '\0';   
 
     system("cls");
     printf("+-----------------------------------------------------------------------+\n");
@@ -96,9 +116,12 @@ void borrowBook(Book books[10]) {
     do
     {
         printf("\nENTER THE ID OF THE BOOK YOU WANT TO BORROW (0 TO CANCEL): ");
-        scanf("%d", &choice);
+        result[0] = scanf("%d", &choice);
+        extra[0] = clearBuffer();
 
-            if (choice == 0) {
+            if (result[0] != 1 || extra[0] == 1) printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n");
+            
+            else if (choice == 0) {
                 printLoadingDots("LOADING", 4, 500);
                 system("cls");
                 break;
@@ -138,30 +161,72 @@ void borrowBook(Book books[10]) {
             printLoadingDots("LOADING", 4, 500);
         }
         else {
-
+   
             system("cls");
-            printf("+-----------------------------------------------------------------------+\n");
-            printf("|                YOU HAVE SUCCESSFULLY BORROWED A BOOK                  |\n");
-            printf("+-----------------------------------------------------------------------+\n");
-            printf("|                               DETAILS                                 | \n");
-            printf("|                                                                       | \n");
-            printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
-            printf("|  TITLE   : %-58.58s |\n", books[index].title);
-            printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
-            printf("|  YEAR    : %-58d |\n", books[index].year);
-            printf("|                                                                       | \n");
-            printf("+-----------------------------------------------------------------------+\n");
 
-            printf("\n\nPRESS ANYTHING TO CONTINUE");
-            getch();
-            printLoadingDots("LOADING", 4, 500);
-            system("cls");
+            do
+            {
+                
+                printf("+-----------------------------------------------------------------------+\n");
+                printf("|                        BORROWING  CONFIRMATION                        |\n");
+                printf("+-----------------------------------------------------------------------+\n");
+                printf("|                               DETAILS                                 | \n");
+                printf("|                                                                       | \n");
+                printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
+                printf("|  TITLE   : %-58.58s |\n", books[index].title);
+                printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
+                printf("|  YEAR    : %-58d |\n", books[index].year);
+                printf("|                                                                       | \n");
+                printf("+-----------------------------------------------------------------------+\n");
+
+                printf("\nPRESS [Y] TO CONFIRM(N TO CANCEL): ");
+                result[1] = scanf(" %c", &confirm);
+                extra[1] = clearBuffer();
+                confirm = toupper(confirm);
+
+                if (result[1] != 1 || extra[1] == 1) {
+                    system("cls");
+                    printf("\nINPUT MUST CONTAIN CHARACTER ONLY\nPLEASE TRY AGAIN\n\n");
+                }
+                else if (confirm == 'N') {
+                    system("cls");
+                    printLoadingDots("RETURNING TO MAIN MENU", 4, 500);
+                    system("cls");
+                    break;
+                }
+                else if ((confirm != 'Y')) {
+                    system("cls");
+                    printf("\nINVALID INPUT\nPLEASE TRY AGAIN\n\n");
+                }
+                else {
+                    printLoadingDots("PROCESSING YOUR REQUEST", 4, 500);
+                    system("cls");
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                YOU HAVE SUCCESSFULLY BORROWED A BOOK                  |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                               DETAILS                                 | \n");
+                    printf("|                                                                       | \n");
+                    printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
+                    printf("|  TITLE   : %-58.58s |\n", books[index].title);
+                    printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
+                    printf("|  YEAR    : %-58d |\n", books[index].year);
+                    printf("|                                                                       | \n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nPRESS ANYTHING TO CONTINUE");
+                    getch();
+                    printLoadingDots("\nLOADING", 4, 500);
+                    system("cls");
+                    break;
+                };
+
+            } while (1);
+
         }
  
     }
+   
     
-
-
 }
 
 int main() {
