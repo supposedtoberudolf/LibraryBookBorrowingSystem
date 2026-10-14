@@ -141,10 +141,8 @@ void borrowBook(Book books[10]) {
 
         for (int i = 0; i < 10; i++) {
             if (choice == books[i].ID) {
-                if (strcmp(books[i].status, "AVAILABLE") == 0)
-                {
+                if (strcmp(books[i].status, "AVAILABLE") == 0) {
                     isAvailable = 1;
-                    strcpy(books[i].status, "UNAVAILABLE");
                 }
                 
             }
@@ -199,6 +197,7 @@ void borrowBook(Book books[10]) {
                     printf("\nINVALID INPUT\nPLEASE TRY AGAIN\n\n");
                 }
                 else {
+                    strcpy(books[index].status, "UNAVAILABLE");
                     printLoadingDots("PROCESSING YOUR REQUEST", 4, 500);
                     system("cls");
                     printf("+-----------------------------------------------------------------------+\n");
