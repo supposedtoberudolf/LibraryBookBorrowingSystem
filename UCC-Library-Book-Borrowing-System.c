@@ -97,7 +97,7 @@ void displayBooks(Book books[10]) {
 
 void borrowBook(Book books[10]) {
 
-    int index, choice, isAvailable = 0;
+    int index = 0, choice = 0, isAvailable = 0;
     int result[2] = {0};
     int extra[2] = {0};
     char confirm = '\0';   
