@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <conio.h>
 #include <string.h>
@@ -167,13 +167,13 @@ void borrowBook(Book books[10]) {
                 printf("+-----------------------------------------------------------------------+\n");
                 printf("|                        BORROWING  CONFIRMATION                        |\n");
                 printf("+-----------------------------------------------------------------------+\n");
-                printf("|                               DETAILS                                 | \n");
-                printf("|                                                                       | \n");
+                printf("|                               DETAILS                                 |\n");
+                printf("|                                                                       |\n");
                 printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
                 printf("|  TITLE   : %-58.58s |\n", books[index].title);
                 printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
                 printf("|  YEAR    : %-58d |\n", books[index].year);
-                printf("|                                                                       | \n");
+                printf("|                                                                       |\n");
                 printf("+-----------------------------------------------------------------------+\n");
 
                 printf("\nPRESS [Y] TO CONFIRM(N TO CANCEL): ");
