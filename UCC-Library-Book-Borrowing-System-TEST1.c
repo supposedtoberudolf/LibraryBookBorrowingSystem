@@ -4,6 +4,7 @@
 #include <string.h>
 #include <windows.h>
 #include <ctype.h>
+#define BOOK_QUANTITY 12
 
 typedef struct {
     
@@ -18,12 +19,10 @@ typedef struct {
 void printLoadingDots(const char *message, int dotCount, int delayMs) {
     
     printf("\n%s", message);
-    fflush(stdout);
 
     for (int i = 0; i < dotCount; i++) {
         Sleep(delayMs);
         printf(" .");
-        fflush(stdout);
     }
     printf("\n");
 }
@@ -82,7 +81,7 @@ void displayBooks(Book books[10]) {
     printf("+-----------------------------------------------------------------------+\n");
     printf("|                        LIBRARY BOOK CATALOG                           |\n");
     printf("+-----------------------------------------------------------------------+\n");
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < BOOK_QUANTITY; i++) {
         printf("+-----------------------------------------------------------------------+\n");
         printf("BOOK ID  : [%d]\nTITLE    : %s\nAUTHOR   : %s\nYEAR     : %d\nSTATUS   : %s\n", books[i].ID, books[i].title, books[i].author, books[i].year, books[i].status);
         printf("+-----------------------------------------------------------------------+\n");
@@ -97,16 +96,21 @@ void displayBooks(Book books[10]) {
 
 void borrowBook(Book books[10]) {
 
-    int index = 0, choice = 0, isAvailable = 0;
-    int result[2] = {0};
-    int extra[2] = {0};
+    int index = 0, choice = 0, isAvailable = 0, isFound = 0, isValid = 0, isEditing = 0;
+    int result[7] = {0};
+    int extra[7] = {0};
+    int studentID = 0;
     char confirm = '\0';   
+    char editChoice = '\0';
+    char borrower[50];
+    char yearSection[10];
+    char program[10];
 
     system("cls");
     printf("+-----------------------------------------------------------------------+\n");
     printf("|                            LIBRARY BOOKS                              |\n");
     printf("+-----------------------------------------------------------------------+\n");
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < BOOK_QUANTITY; i++) {
         printf("+-----------------------------------------------------------------------+\n");
         printf("BOOK ID  : [%d]\nTITLE    : %s\nAUTHOR   : %s\nYEAR     : %d\nSTATUS   : %s\n", books[i].ID, books[i].title, books[i].author, books[i].year, books[i].status);
         printf("+-----------------------------------------------------------------------+\n");
@@ -119,6 +123,11 @@ void borrowBook(Book books[10]) {
         result[0] = scanf("%d", &choice);
         extra[0] = clearBuffer();
 
+        isFound = 0;
+        for (int i = 0; i < BOOK_QUANTITY; i++) {
+            if (choice == books[i].ID) isFound = 1;
+        }
+
             if (result[0] != 1 || extra[0] == 1) printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n");
             
             else if (choice == 0) {
@@ -126,7 +135,7 @@ void borrowBook(Book books[10]) {
                 system("cls");
                 break;
             }
-            else if (choice > 10 || choice < 1) {
+            else if (isFound == 0) {
                 printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN");
                 Sleep(2000);
                 printLoadingDots("LOADING", 4, 500);
@@ -135,9 +144,9 @@ void borrowBook(Book books[10]) {
 
     } while (1);
     
-    if ((choice <= 10) && (choice >= 1)) {
+    if (isFound == 1) {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < BOOK_QUANTITY; i++) {
             if (choice == books[i].ID) {
                 if (strcmp(books[i].status, "AVAILABLE") == 0) {
                     isAvailable = 1;
@@ -158,7 +167,156 @@ void borrowBook(Book books[10]) {
             system("cls");
         }
         else {
-   
+
+            do
+            {
+                isEditing = 0;
+
+                system("cls");
+
+                do
+                {
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                         STUDENT INFORMATION                           |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nENTER YOUR FULL NAME: ");
+                    borrower[0] = '\0';
+                    result[2] = scanf(" %49[^\n]", borrower);
+                    extra[2] = clearBuffer();
+
+                    isValid = 1;
+                    for (int i = 0; borrower[i] != '\0'; i++) {
+                        if (borrower[i] >= '0' && borrower[i] <= '9') isValid = 0;
+                    }
+
+                    if (result[2] != 1 || extra[2] == 1) {
+                        system("cls");
+                        printf("\nNAME MUST NOT EXCEED 49 CHARACTERS\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else if (isValid == 0) {
+                        system("cls");
+                        printf("\nNAME MUST NOT CONTAIN NUMBERS\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else break;
+
+                } while (1);
+
+                system("cls");
+
+                do
+                {
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                         STUDENT INFORMATION                           |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nENTER YOUR STUDENT ID (EXAMPLE: 20260079): ");
+                    result[6] = scanf("%d", &studentID);
+                    extra[6] = clearBuffer();
+
+                    if (result[6] != 1 || extra[6] == 1) {
+                        system("cls");
+                        printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else if (studentID < 10000000 || studentID > 99999999) {
+                        system("cls");
+                        printf("\nSTUDENT ID MUST BE 8 DIGITS\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else break;
+
+                } while (1);
+
+                system("cls");
+
+                do
+                {
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                         STUDENT INFORMATION                           |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nENTER YOUR YEAR AND SECTION (EXAMPLE: 1-A): ");
+                    yearSection[0] = '\0';
+                    result[3] = scanf("%10s", yearSection);
+                    extra[3] = clearBuffer();
+
+                    if (result[3] != 1 || extra[3] == 1) {
+                        system("cls");
+                        printf("\nYEAR AND SECTION MUST NOT EXCEED 10 CHARACTERS\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else {
+                        for (int i = 0; yearSection[i] != '\0'; i++) {
+                            yearSection[i] = toupper(yearSection[i]);
+                        }
+                        break;
+                    }
+
+                } while (1);
+
+                system("cls");
+
+                do
+                {
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                         STUDENT INFORMATION                           |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nENTER YOUR PROGRAM (EXAMPLE: BSCS): ");
+                    program[0] = '\0';
+                    result[4] = scanf("%10s", program);
+                    extra[4] = clearBuffer();
+
+                    if (result[4] != 1 || extra[4] == 1) {
+                        system("cls");
+                        printf("\nPROGRAM MUST NOT EXCEED 10 CHARACTERS\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else {
+                        for (int i = 0; program[i] != '\0'; i++) {
+                            program[i] = toupper(program[i]);
+                        }
+                        break;
+                    }
+
+                } while (1);
+
+                system("cls");
+
+                do
+                {
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                         INFORMATION SUMMARY                           |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+                    printf("|                                                                       |\n");
+                    printf("|  NAME    : %-58.58s |\n", borrower);
+                    printf("|  STUD. ID: %-58d |\n", studentID);
+                    printf("|  YEAR/SEC: %-58.58s |\n", yearSection);
+                    printf("|  PROGRAM : %-58.58s |\n", program);
+                    printf("|                                                                       |\n");
+                    printf("+-----------------------------------------------------------------------+\n");
+
+                    printf("\nDO YOU WANT TO EDIT YOUR INFORMATION?\n");
+                    printf("PRESS [Y] TO EDIT(N TO CONTINUE): ");
+                    result[5] = scanf(" %c", &editChoice);
+                    extra[5] = clearBuffer();
+                    editChoice = toupper(editChoice);
+
+                    if (result[5] != 1 || extra[5] == 1) {
+                        system("cls");
+                        printf("\nPLEASE ENTER Y OR N ONLY\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else if (editChoice == 'Y') {
+                        isEditing = 1;
+                        break;
+                    }
+                    else if (editChoice != 'N') {
+                        system("cls");
+                        printf("\nINVALID INPUT\nPLEASE TRY AGAIN\n\n");
+                    }
+                    else break;
+
+                } while (1);
+
+            } while (isEditing == 1);
+
             system("cls");
 
             do
@@ -169,6 +327,10 @@ void borrowBook(Book books[10]) {
                 printf("+-----------------------------------------------------------------------+\n");
                 printf("|                               DETAILS                                 |\n");
                 printf("|                                                                       |\n");
+                printf("|  NAME    : %-58.58s |\n", borrower);
+                printf("|  STUD. ID: %-58d |\n", studentID);
+                printf("|  YEAR/SEC: %-58.58s |\n", yearSection);
+                printf("|  PROGRAM : %-58.58s |\n", program);
                 printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
                 printf("|  TITLE   : %-58.58s |\n", books[index].title);
                 printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
@@ -204,6 +366,10 @@ void borrowBook(Book books[10]) {
                     printf("+-----------------------------------------------------------------------+\n");
                     printf("|                               DETAILS                                 | \n");
                     printf("|                                                                       | \n");
+                    printf("|  NAME    : %-58.58s |\n", borrower);
+                    printf("|  STUD. ID: %-58d |\n", studentID);
+                    printf("|  YEAR/SEC: %-58.58s |\n", yearSection);
+                    printf("|  PROGRAM : %-58.58s |\n", program);
                     printf("|  BOOK ID : %-58d |\n", books[index].ID);                                           
                     printf("|  TITLE   : %-58.58s |\n", books[index].title);
                     printf("|  AUTHOR  : %-58.58s |\n", books[index].author);
@@ -229,72 +395,86 @@ void borrowBook(Book books[10]) {
 
 int main() {
     
-    Book books[10] = {
+    Book books[BOOK_QUANTITY] = {
         {
-            .ID = 1,
+            .ID = 101,
             .title = "The C Programming Language (Second Edition)",
             .author = "Brian W. Kernighan and Dennis M. Ritchie",
             .year = 1988,
             .status = "AVAILABLE"
         },
         {
-            .ID = 2,
+            .ID = 102,
+            .title = "The C Programming Language (Second Edition)",
+            .author = "Brian W. Kernighan and Dennis M. Ritchie",
+            .year = 1988,
+            .status = "AVAILABLE"
+        },
+        {
+            .ID = 103,
+            .title = "The C Programming Language (Second Edition)",
+            .author = "Brian W. Kernighan and Dennis M. Ritchie",
+            .year = 1988,
+            .status = "AVAILABLE"
+        },
+        {
+            .ID = 201,
             .title = "Introduction to Programming Using Java",
             .author = "David J. Eck",
             .year = 2006,
             .status = "AVAILABLE"
         },
         {
-            .ID = 3,
+            .ID = 301,
             .title = "Fundamentals of Database Management Systems (Third Edition)",
             .author = "Mark L. Gillenson",
             .year = 2023,
             .status = "AVAILABLE"
         },
         {
-            .ID = 4,
+            .ID = 401,
             .title = "Calculus and Analytic Geometry (Ninth Edition)",
             .author = "George B. Thomas, Ross L. Finney, and Maurice D. Weir",
             .year = 1996,
             .status = "AVAILABLE"
         },
         {
-            .ID = 5,
+            .ID = 501,
             .title = "Cybersecurity Fundamentals",
             .author = "Dr. Sarita Devanand Sanap",
             .year = 2026,
             .status = "AVAILABLE"
         },
         {
-            .ID = 6,
+            .ID = 601,
             .title = "Philippine Medical Technology Laws and Bioethics",
             .author = "Sally C. Suba and Giovanni De Jesus Milanez",
             .year = 2017,
             .status = "AVAILABLE"
         },
         {
-            .ID = 7,
+            .ID = 701,
             .title = "National Service Training Program: Civic Welfare Training Services",
             .author = "Arnold L. Espinas, Miguel R. Santos, and Marilyn T. de Jesus",
             .year = 2011,
             .status = "AVAILABLE"
         },
         {
-            .ID = 8,
+            .ID = 801,
             .title = "Discrete Mathematics and Its Applications",
             .author = "Kenneth H. Rosen",
             .year = 2019,
             .status = "AVAILABLE"
         },
         {
-            .ID = 9,
+            .ID = 901,
             .title = "Computer Science: An Overview",
             .author = "J. Glenn Brookshear and Dennis Brylow",
             .year = 2019,
             .status = "AVAILABLE"
         },
         {
-            .ID = 10,
+            .ID = 1001,
             .title = "The Finance Book",
             .author = "Stuart Warner and Si Hussain",
             .year = 2017,
