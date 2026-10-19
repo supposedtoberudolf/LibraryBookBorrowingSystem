@@ -198,8 +198,7 @@ void borrowBook(Book books[10], Student student[STUDENT_COUNT]) {
                         printf("|                         STUDENT VERIFICATION                          |\n");
                         printf("+-----------------------------------------------------------------------+\n");
 
-                        printf("\nFOR EX. 20260079\n");
-                        printf("\nPLEASE ENTER YOUR STUDENT NUMBER TO CONTINUE BORROWING (0 TO CANCEL): ");
+                        printf("\nPLEASE ENTER YOUR STUDENT NUMBER TO CONTINUE BORROWING (FOR EX. 20260077) | (0 TO CANCEL): ");
                         studentID[0] = '\0';
                         result[2] = scanf("%9s", studentID);
                         extra[2] = clearBuffer();
