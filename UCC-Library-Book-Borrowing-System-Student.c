@@ -153,8 +153,7 @@ void borrowBook(Book books[10], Student student[STUDENT_COUNT]) {
                     break;
                 }
                 else if (isFound == 0) {
-                    printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN");
-                    Sleep(2000);
+                    printf("\nINVALID BOOK ID\nPLEASE TRY AGAIN\n");
                     printLoadingDots("LOADING", 4, 500);
                 }    
                 else break;
