@@ -145,8 +145,10 @@ void borrowBook(Book books[10], Student student[STUDENT_COUNT]) {
                 if (choice == books[i].ID) isFound = 1;
             }
 
-                if (result[0] != 1 || extra[0] == 1) printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n");
-                
+                if (result[0] != 1 || extra[0] == 1) {
+                    printf("\nINPUT MUST CONTAIN NUMBER ONLY\nPLEASE TRY AGAIN\n");
+                    printLoadingDots("LOADING", 4, 500);
+                }
                 else if (choice == 0) {
                     printLoadingDots("LOADING", 4, 500);
                     system("cls");
