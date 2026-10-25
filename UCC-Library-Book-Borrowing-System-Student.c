@@ -10,11 +10,11 @@
 
 typedef struct {
     char accessionNo[8];
-    char ddc[10];
-    char callNo[20];
-    char title[70];
+    char ddc[15];
+    char callNo[25];
+    char title[80];
     int year;
-    char author[90];
+    char author[100];
     char status[20];
 } Book;
 
@@ -53,7 +53,7 @@ int displayMainMenu() {
 
     do {
         printf("+-----------------------------------------------------------------------+\n");
-        printf("|            ----- UCC LIBRARY BOOK BORROWING SYSTEM -----              |\n");
+        printf("|               ----- LIBRARY BOOK BORROWING SYSTEM -----               |\n");
         printf("+-----------------------------------------------------------------------+\n");
         printf("|                                                                       |\n");
         printf("|        [1] CHECK LIBRARY BOOKS              [3] EXIT                  |\n");
@@ -522,7 +522,7 @@ int main() {
             .accessionNo = "0002001",
             .ddc = "150",
             .callNo = "150-MYE-001",
-            .title = "Psychology",
+            .title = "Psychology (Twelfth Edition)",
             .author = "David G. Myers and C. Nathan DeWall",
             .year = 2018,
             .status = "AVAILABLE"
@@ -531,7 +531,7 @@ int main() {
             .accessionNo = "0003001",
             .ddc = "220.6",
             .callNo = "220.6-FEE-001",
-            .title = "How to Read the Bible for All Its Worth",
+            .title = "How to Read the Bible for All Its Worth (Fourth Edition)",
             .author = "Gordon D. Fee and Douglas Stuart",
             .year = 2014,
             .status = "AVAILABLE"
@@ -540,33 +540,33 @@ int main() {
             .accessionNo = "0004001",
             .ddc = "330",
             .callNo = "330-MAN-001",
-            .title = "Principles of Economics",
+            .title = "Principles of Economics (Ninth Edition)",
             .author = "N. Gregory Mankiw",
             .year = 2021,
             .status = "AVAILABLE"
         },
         {
             .accessionNo = "0005001",
-            .ddc = "420",
-            .callNo = "420-CRY-001",
-            .title = "The Cambridge Encyclopedia of the English Language",
+            .ddc = "420.03",
+            .callNo = "420.03-CRY-001",
+            .title = "The Cambridge Encyclopedia of the English Language (Third Edition)",
             .author = "David Crystal",
             .year = 2018,
             .status = "AVAILABLE"
         },
         {
             .accessionNo = "0006001",
-            .ddc = "515",
-            .callNo = "515-THO-001",
+            .ddc = "515.15",
+            .callNo = "515.15-THO-001",
             .title = "Calculus and Analytic Geometry (Ninth Edition)",
-            .author = "George B. Thomas, Ross L. Finney, and Maurice D. Weir",
+            .author = "George B. Thomas Jr., Ross L. Finney, with Maurice D. Weir",
             .year = 1996,
             .status = "AVAILABLE"
         },
         {
             .accessionNo = "0007001",
-            .ddc = "610",
-            .callNo = "610-SUB-001",
+            .ddc = "344.041599",
+            .callNo = "344.041599-SUB-001",
             .title = "Philippine Medical Technology Laws and Bioethics",
             .author = "Sally C. Suba and Giovanni De Jesus Milanez",
             .year = 2017,
@@ -576,7 +576,7 @@ int main() {
             .accessionNo = "0008001",
             .ddc = "796.3",
             .callNo = "796.3-DK-001",
-            .title = "The Sports Book",
+            .title = "The Sports Book (Fourth Edition)",
             .author = "DK",
             .year = 2013,
             .status = "AVAILABLE"
@@ -594,7 +594,7 @@ int main() {
             .accessionNo = "0010001",
             .ddc = "959.9",
             .callNo = "959.9-AGO-001",
-            .title = "History of the Filipino People",
+            .title = "History of the Filipino People (Eighth Edition)",
             .author = "Teodoro A. Agoncillo",
             .year = 1990,
             .status = "AVAILABLE"
